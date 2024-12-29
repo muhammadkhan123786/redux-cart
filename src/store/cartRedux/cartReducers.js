@@ -1,42 +1,35 @@
-import { addItem, removeItem } from './cartActions';
+import { createSlice } from '@reduxjs/toolkit';
 const initialState = { items: [] };
-
-const cartReducers = (state = initialState, action) => {
-  let Items = [...state.items];
-  if (action.type === addItem) {
-    //add item.
-
-    const itemIndex = Items.findIndex((item) => item.id === action.item.id);
-
-    if (itemIndex > -1) {
-      //item in cart already.
-      Items = state.items.map((item, index) =>
-        index === itemIndex ? { ...item, quantity: item.quantity + 1 } : item
+const cartSlice = createSlice({
+  name: 'cartSlice',
+  initialState: initialState,
+  reducers: {
+    addItem: (state, action) => {
+      const itemIndex = state.items.findIndex(
+        (item) => item.id === action.payload.id
       );
-    } else {
-      //item not in the cart.
-
-      Items.push({ ...action.item, quantity: 1 });
-    }
-    return { ...state, items: Items };
-  }
-  if (action.type === removeItem) {
-    const itemIndex = Items.findIndex((item) => item.id === action.id);
-
-    if (itemIndex > -1) {
-      const item = Items[itemIndex];
-      if (item.quantity > 1) {
-        Items = state.items.map((item, index) =>
-          index === itemIndex ? { ...item, quantity: item.quantity - 1 } : item
-        );
-      } else if (item.quantity === 1) {
-        Items = state.items.filter((item) => item.id !== action.id);
+      if (itemIndex > -1) {
+        state.items[itemIndex].quantity += 1;
+      } else {
+        state.items.push({ ...action.payload, quantity: 1 });
       }
-    }
+    },
+    removeItem: (state, action) => {
+      const itemIndex = state.items.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (itemIndex > -1) {
+        if (state.items[itemIndex].quantity > 1) {
+          state.items[itemIndex].quantity -= 1;
+        } else if (state.items[itemIndex].quantity === 1) {
+          state.items = state.items.filter(
+            (item) => item.id !== action.payload.id
+          );
+        }
+      }
+    },
+  },
+});
 
-    return { ...state, items: Items };
-  }
-  return state;
-};
-
-export default cartReducers;
+export const { addItem, removeItem } = cartSlice.actions;
+export default cartSlice.reducer;

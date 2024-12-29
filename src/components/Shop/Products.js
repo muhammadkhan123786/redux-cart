@@ -20,7 +20,7 @@ const products = [
     description: 'Orange are sour.',
   },
 ];
-const Products = (props) => {
+const Products = () => {
   return (
     <section className={classes.products}>
       <h2>Buy your favorite products</h2>

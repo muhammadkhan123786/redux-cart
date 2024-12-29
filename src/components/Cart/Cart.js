@@ -3,9 +3,8 @@ import Card from '../UI/Card';
 import classes from './Cart.module.css';
 import CartItem from './CartItem';
 
-const Cart = (props) => {
+const Cart = () => {
   const items = useSelector((state) => state.cartReducers.items);
-  console.log(items);
 
   return (
     <Card className={classes.cart}>

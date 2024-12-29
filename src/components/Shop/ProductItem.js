@@ -1,12 +1,12 @@
 import { useDispatch } from 'react-redux';
 import Card from '../UI/Card';
 import classes from './ProductItem.module.css';
-import { ADD_ITEM } from '../../store/cartRedux/cartActions';
+import { addItem } from '../../store/cartRedux/cartReducers';
 
 const ProductItem = ({ item }) => {
   const dispatch = useDispatch();
   const addProductHandler = () => {
-    dispatch(ADD_ITEM(item));
+    dispatch(addItem( item));
   };
   return (
     <li className={classes.item}>
