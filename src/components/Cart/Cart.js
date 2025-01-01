@@ -5,16 +5,21 @@ import CartItem from './CartItem';
 
 const Cart = () => {
   const items = useSelector((state) => state.cartReducers.items);
+  const showCart = useSelector((state) => state.uiReducers.showCart);
 
   return (
-    <Card className={classes.cart}>
-      <h2>Your Shopping Cart</h2>
-      <ul>
-        {items.map((item) => (
-          <CartItem key={item.id} item={item} />
-        ))}
-      </ul>
-    </Card>
+    <>
+      {showCart && (
+        <Card className={classes.cart}>
+          <h2>Your Shopping Cart</h2>
+          <ul>
+            {items.map((item) => (
+              <CartItem key={item.id} item={item} />
+            ))}
+          </ul>
+        </Card>
+      )}
+    </>
   );
 };
 
